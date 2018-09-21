@@ -14,7 +14,7 @@ public class PromocaoPagueLeve implements Promocao{
 		this.quantidade_paga=quantidade_paga;
 	}
 	
-	public int getId() {
+	public int getID() {
 		return id;
 	}
 
@@ -26,7 +26,7 @@ public class PromocaoPagueLeve implements Promocao{
 		return observacao;
 	}
 
-	public int getQuantidade_ativacao() {
+	public int getQuantidadeAtivacao() {
 		return quantidade_ativacao;
 	}
 
@@ -37,13 +37,31 @@ public class PromocaoPagueLeve implements Promocao{
 	public String getTipo() {
 		return tipo;
 	}
-
+	public void setID(int id) {
+		this.id= id;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao=descricao;
+		
+	}
+	public void setObservacao(String observacao) {
+		this.observacao=observacao;
+		
+	}
+	public void setQuantidadeAtivacao(int quantidadeAtivacao) {
+		this.quantidade_ativacao=quantidadeAtivacao;
+		
+	}
+	public void setQuantidadePaga(int quantidadePaga) {
+		this.quantidade_paga=quantidadePaga;
+		
+	}
 	public BigDecimal getDesconto(int quantidade, BigDecimal preco) {
 		int verificador;
 		verificador = quantidade/quantidade_ativacao;
 		if(verificador>=1) {
-			return preco*((quantidade_ativacao-quantidade_paga)*verificador);
+			return preco.multiply(BigDecimal.valueOf(((quantidade_ativacao-quantidade_paga)*verificador)));
 		}
-		return 0;
+		return BigDecimal.valueOf(0);
 	}
 }

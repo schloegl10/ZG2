@@ -21,7 +21,7 @@ public class DAO_Produto {
 		}
 	}
 	public static Produto selecionarProduto(int id) throws SQLException {
-		Produto produto = new Produto(null,null);
+		Produto produto = new Produto(0,null,null);
 		try(Connection conexao = FabricaConexao.getConexao();
 				PreparedStatement consulta = conexao.prepareStatement(SELECT_SQL)){
 			consulta.setInt(1, id);
