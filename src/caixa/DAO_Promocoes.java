@@ -27,16 +27,19 @@ public class DAO_Promocoes {
 		}
 	}
 	public static Promocao selecionarPromocao(int id) throws SQLException {
-		Promocao promocao = null;
+		Promocao promocao;
 		try(Connection conexao = FabricaConexao.getConexao();
 				PreparedStatement consulta = conexao.prepareStatement(SELECT_SQL)){
 			consulta.setInt(1, id);
 			ResultSet resultado = consulta.executeQuery();
+			
 			if(resultado.next()) {
-				produto.setID(resultado.getInt("ID"));
-				produto.setDescricao(resultado.getString("DESCRICAO"));
-				produto.setPreco(resultado.getBigDecimal("VALOR"));
-				produto.setPromocao(DAO_Referencias.selecionarPromocao(id));
+				if(resultado.getInt("QUANTIDADE_PAGA")==0) {
+					promocao = new PromocaoValorAbsoluto(resultado.getInt("ID"), resultado.getString("DESCRICAO"), resultado.getString("OBSERVACAO"), resultado.getInt("QUANTIDADE_ATIVACAO"), resultado.getBigDecimal("PRECO_FINAL"));
+				}
+				else {
+					promocao = new PromocaoPagueLeve(resultado.getInt("ID"), resultado.getString("DESCRICAO"), resultado.getString("OBSERVACAO"), resultado.getInt("QUANTIDADE_ATIVACAO"), resultado.getInt("QUANTIDADE_PAGA"));
+				}
 			}
 		}
 		catch(SQLException e){

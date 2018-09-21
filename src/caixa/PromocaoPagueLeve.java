@@ -9,7 +9,10 @@ public class PromocaoPagueLeve implements Promocao{
 	private int quantidade_ativacao;
 	private int quantidade_paga;
 	private String tipo = "Pague-Leve";
-	public PromocaoPagueLeve(int quantidade_ativacao,int quantidade_paga) {
+	public PromocaoPagueLeve(int id, String descricao, String observacao, int quantidade_ativacao,int quantidade_paga) {
+		this.id=id;	
+		this.descricao=descricao;
+		this.observacao=observacao;
 		this.quantidade_ativacao=quantidade_ativacao;
 		this.quantidade_paga=quantidade_paga;
 	}
