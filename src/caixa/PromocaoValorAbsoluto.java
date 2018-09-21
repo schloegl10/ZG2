@@ -2,38 +2,18 @@ package caixa;
 
 import java.math.BigDecimal;
 
-public class PromocaoValorAbsoluto implements Promocao{
-	
-	private int id;
-	private String descricao;
-	private String observacao;
-	private int quantidade_ativacao;
-	private BigDecimal preco_final;
-	private String tipo = "ValorAbsoluto";
-	
-	public PromocaoValorAbsoluto(int quantidade_ativacao,BigDecimal preco_final) {
-		this.quantidade_ativacao=quantidade_ativacao;
+public class PromocaoValorAbsoluto extends Promocao{
+	public PromocaoValorAbsoluto(int id, String descricao, String observacao, int quantidade_ativacao, BigDecimal preco_final) {
+		super(id, descricao, observacao, quantidade_ativacao);
 		this.preco_final=preco_final;
 	}
-	
-	public int getId() {
-		return id;
-	}
 
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public String getObservacao() {
-		return observacao;
-	}
-
-	public int getQuantidade_ativacao() {
-		return quantidade_ativacao;
-	}
-
+	private BigDecimal preco_final;
 	public BigDecimal getPreco_final() {
 		return preco_final;
+	}
+	public void setPrecoFinal(BigDecimal preco_final) {
+		this.preco_final.equals(preco_final);
 	}
 	public BigDecimal getDesconto(int quantidade,BigDecimal preco) {
 		
@@ -47,5 +27,4 @@ public class PromocaoValorAbsoluto implements Promocao{
 		
 		return BigDecimal.valueOf(0);
 	}
-
 }

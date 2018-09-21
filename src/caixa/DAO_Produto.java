@@ -3,17 +3,27 @@ package caixa;
 import java.sql.*;
 
 public class DAO_Produto {
-	private static final String INSERT_SQL = "INSERT INTO PRODUTOS(ID, DESCRICAO, VALOR) VALUES(?, ?, ?)";
+	private static final String INSERT_SQL = "INSERT INTO PRODUTOS(ID, DESCRICAO, VALOR";
 	private static final String SELECT_SQL = "SELECT * FROM PRODUTOS WHERE ID = ?";
-	private static final String UPDATE_SQL = "UPDATE PRDOUTOS SET";
+	private static final String UPDATE_SQL = "UPDATE PRODUTOS SET";
 	private static final String DELETE_SQL = "DELETE FROM PRODUTOS WHERE ID = ?";
 	public static void gerarProduto(Produto produto) throws SQLException {
+		String INSERT_SQL2;
+		if(produto.getPromocao()!=null) {
+			INSERT_SQL2 = INSERT_SQL+", IDPROMOCAO) VALUES(?, ?, ?,?)";
+		}
+		else {
+			INSERT_SQL2 = INSERT_SQL + ") VALUES(?, ?, ?)";
+		}
 		try(Connection conexao = FabricaConexao.getConexao();
-				PreparedStatement criar = conexao.prepareStatement(INSERT_SQL)){
+				PreparedStatement criar = conexao.prepareStatement(INSERT_SQL2)){
 			criar.setInt(1, produto.getID());
 			criar.setString(2, produto.getDescricao());
 			criar.setBigDecimal(3, produto.getPreco());
-			criar.setInt(4, produto.getPromocao().getID());
+			if(produto.getPromocao()!= null)
+			{
+				criar.setInt(4, produto.getPromocao().getID());
+			}
 			criar.executeUpdate();
 		}
 		catch(SQLException e) {
@@ -39,13 +49,22 @@ public class DAO_Produto {
 		return null;
 	}
 	public static void alterarProdutoCompleto(Produto produto) throws SQLException {
-		String UPDATE_SQL2=UPDATE_SQL+"DESCRICAO = ?, VALOR = ?, IDPROMOCAO = ? WHERE ID = ?";
+		String UPDATE_SQL2;
+		if(produto.getPromocao()!=null) {
+			UPDATE_SQL2 = UPDATE_SQL+" DESCRICAO = ?, VALOR = ?, IDPROMOCAO = ? WHERE ID = ?";
+		}
+		else {
+			UPDATE_SQL2 = UPDATE_SQL + " DESCRICAO = ?, VALOR = ? WHERE ID = ?";
+		}
 		try(Connection conexao = FabricaConexao.getConexao();
 				PreparedStatement alterar = conexao.prepareStatement(UPDATE_SQL2)){
 			alterar.setString(1, produto.getDescricao());
 			alterar.setBigDecimal(2, produto.getPreco());
 			alterar.setInt(3, produto.getID());
-			alterar.setInt(4, produto.getPromocao().getID());
+			if(produto.getPromocao()!= null)
+			{
+				alterar.setInt(4, produto.getPromocao().getID());
+			}
 			alterar.executeUpdate();
 		}
 	}

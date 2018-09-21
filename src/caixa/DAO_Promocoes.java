@@ -1,5 +1,6 @@
 package caixa;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,8 +18,14 @@ public class DAO_Promocoes {
 			criar.setString(2,promocao.getDescricao());
 			criar.setString(3, promocao.getObservacao());
 			criar.setInt(4, promocao.getQuantidadeAtivacao());
-			criar.setBigDecimal(5,promocao.getPreco_final());
-			criar.setInt(6, promocao.getQuantidade_paga());
+			if(promocao instanceof PromocaoPagueLeve) {
+				criar.setInt(6, ((PromocaoPagueLeve)promocao).getQuantidade_paga());
+				criar.setInt(5, -1);
+			}
+			else if(promocao instanceof PromocaoValorAbsoluto) {
+				criar.setBigDecimal(5,((PromocaoValorAbsoluto)promocao).getPreco_final());
+				criar.setBigDecimal(6, BigDecimal.valueOf(-1));
+			}
 			criar.executeUpdate();
 		}
 		catch(SQLException e) {
@@ -33,7 +40,13 @@ public class DAO_Promocoes {
 			consulta.setInt(1, id);
 			ResultSet resultado = consulta.executeQuery();
 			if(resultado.next()) {
-				promocao = new Promocao(resultado.getInt("ID"), resultado.getString("DESCRICAO"), resultado.getString("OBSERVACAO"), resultado.getInt("QUANTIDADE_ATIVACAO"), resultado.getBigDecimal("PRECO_FINAL"), resultado.getInt("QUANTIDADE_PAGA"));
+				if(promocao instanceof PromocaoPagueLeve) {
+					promocao = new PromocaoPagueLeve(resultado.getInt("ID"), resultado.getString("DESCRICAO"), resultado.getString("OBSERVACAO"), resultado.getInt("QUANTIDADE_ATIVACAO"),resultado.getInt("QUANTIDADE_PAGA"));
+				}
+				if(promocao instanceof PromocaoValorAbsoluto) {
+					promocao = new PromocaoValorAbsoluto(resultado.getInt("ID"), resultado.getString("DESCRICAO"), resultado.getString("OBSERVACAO"), resultado.getInt("QUANTIDADE_ATIVACAO"), resultado.getBigDecimal("PRECO_FINAL"));
+				}
+				
 				return promocao;
 			}
 		}
