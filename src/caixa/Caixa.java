@@ -1,4 +1,5 @@
 package caixa;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 public class Caixa {
 	ArrayList<Item> compra = new ArrayList<Item>();
@@ -48,9 +49,9 @@ public class Caixa {
 		}
 		return -1;
 	}
-	public float getPrecoLiquido() {
-		float precoLiquido=0;
-		precoLiquido=Calcula.getPrecoBruto(compra)-Calcula.getDesconto(compra);
+	public BigDecimal getPrecoLiquido() {
+		BigDecimal precoLiquido=BigDecimal.valueOf(0);
+		precoLiquido=Calcula.getPrecoBruto(compra).subtract(Calcula.getDesconto(compra));
 		return precoLiquido;
 	}
 	public void rest() {

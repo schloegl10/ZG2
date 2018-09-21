@@ -6,15 +6,16 @@ import java.sql.SQLException;
 
 public class FabricaConexao {
 
-	public static String url = "jdbc:postgresql://127.0.0.1:63580/browser/ZG";
-	public static String usuario = "postgre";
-	public static String senha = "122345";
+	public static String url = "jdbc:postgresql://localhost:5432/ZG";
+	public static String usuario = "postgres";
+	public static String senha = "Schloegl@20";
 	public static Connection getConexao() throws SQLException {
 		try {
 			Class.forName("org.postgresql.Driver");
 			return DriverManager.getConnection(url,usuario,senha);
 		}
 		catch(ClassNotFoundException e){
+			e.printStackTrace();
 			throw new SQLException(e.getMessage());
 		}
 	}

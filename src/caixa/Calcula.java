@@ -1,21 +1,22 @@
 package caixa;
+import java.math.BigDecimal;
 import java.util.List;
 public class Calcula {
 	
-	public static float getPrecoBruto(List<Item> compra){
-		float precoTotal=0;
+	public static BigDecimal getPrecoBruto(List<Item> compra){
+		BigDecimal precoTotal= BigDecimal.valueOf(0);
 		
 		for(int i=0;i<compra.size();i++) {
-			precoTotal += compra.get(i).produto.getPreco() * compra.get(i).getQuantidade();
+			precoTotal = precoTotal.add(compra.get(i).produto.getPreco().multiply(BigDecimal.valueOf(compra.get(i).getQuantidade())));
 		}
 		return precoTotal;
 	}
 	
-	public static float getDesconto(List<Item> compra) {
-		float descontoTotal=0;
+	public static BigDecimal getDesconto(List<Item> compra) {
+		BigDecimal descontoTotal=BigDecimal.valueOf(0);
 		for(int i=0;i<compra.size();i++) {
 			if(compra.get(i).produto.promocao!=null) {
-				descontoTotal += compra.get(i).produto.promocao.getDesconto(compra.get(i).getQuantidade(), compra.get(i).produto.getPreco());
+				descontoTotal = descontoTotal.add(compra.get(i).produto.promocao.getDesconto(compra.get(i).getQuantidade(), compra.get(i).produto.getPreco()));
 			}
 		}
 		return descontoTotal;

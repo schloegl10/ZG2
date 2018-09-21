@@ -1,5 +1,7 @@
 package caixa;
 
+import java.math.BigDecimal;
+
 public interface Promocao {
-	public float getDesconto(int quantidade,float preco);
+	public BigDecimal getDesconto(int quantidade,BigDecimal preco);
 }

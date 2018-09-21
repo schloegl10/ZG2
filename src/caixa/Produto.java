@@ -5,11 +5,20 @@ import java.math.BigDecimal;
 public class Produto {
 	private int id;
 	private BigDecimal preco;
-	private String codigo;
+	private String descricao;
 	Promocao promocao = null;
-	public Produto(BigDecimal preco, String codigo) {
+	public Produto(BigDecimal preco, String descricao) {
 		this.preco=preco;
-		this.codigo=codigo;
+		this.descricao=descricao;
+	}
+	public void setPreco(BigDecimal preco) {
+		this.preco = preco;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	public void setPromocao(Promocao promocao) {
+		this.promocao = promocao;
 	}
 	public int getID() {
 		return id;
@@ -20,10 +29,10 @@ public class Produto {
 	public BigDecimal getPreco() {
 		return preco;
 	}
-	public String getCodigo() {
-		return codigo;
+	public String getDescricao() {
+		return descricao;
 	}
-	public void criaPromocaoValorAbsoluto(int leve, float valor) {
+	public void criaPromocaoValorAbsoluto(int leve, BigDecimal valor) {
 		promocao = new PromocaoValorAbsoluto(leve,valor);
 	}
 	public void criaPromocaoPagueLeve(int leve, int pague) {
