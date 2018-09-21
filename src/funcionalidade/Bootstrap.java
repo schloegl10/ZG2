@@ -35,10 +35,10 @@ public class Bootstrap {
 		}
 	}
 	public static void geradorProdutos(String url) {
-		//"/Users/Felipe/Desktop/Arquivo_dados_checkout.txt"
 		String data = "";
 		try { 
 			data = new String(Files.readAllBytes(Paths.get(url)));
+			
 		}
 		catch (IOException e) {
 			e.printStackTrace();
