@@ -1,8 +1,13 @@
-package caixa;
+package funcionalidade;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import conexaoBancoDados.FabricaConexao;
 
 public class Bootstrap {
 	public static void criaTabelas() throws SQLException {
@@ -26,6 +31,16 @@ public class Bootstrap {
 			criacao.executeUpdate();
 		}
 		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void geradorProdutos(String url) {
+		//"/Users/Felipe/Desktop/Arquivo_dados_checkout.txt"
+		String data = "";
+		try { 
+			data = new String(Files.readAllBytes(Paths.get(url)));
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

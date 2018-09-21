@@ -1,6 +1,8 @@
 package caixa;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+
+import identificadorDeObjetos.Produto;
 public class Caixa {
 	ArrayList<Item> compra = new ArrayList<Item>();
 	public enum adicionaRemove{

@@ -1,4 +1,4 @@
-package caixa;
+package identificadorDeObjetos;
 
 import java.math.BigDecimal;
 

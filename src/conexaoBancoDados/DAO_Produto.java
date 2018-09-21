@@ -1,6 +1,8 @@
-package caixa;
+package conexaoBancoDados;
 
 import java.sql.*;
+
+import identificadorDeObjetos.Produto;
 
 public class DAO_Produto {
 	private static final String INSERT_SQL = "INSERT INTO PRODUTOS(ID, DESCRICAO, VALOR";

@@ -1,14 +1,13 @@
-package caixa;
+package identificadorDeObjetos;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 public class Produto {
 	private int id;
 	private BigDecimal preco;
 	private String descricao;
 	private Promocao promocao;
-	public Produto(int id,BigDecimal preco, String descricao) {
+	public Produto(int id, String descricao,BigDecimal preco) {
 		this.id=id;
 		this.preco=preco;
 		this.descricao=descricao;

@@ -1,4 +1,4 @@
-package caixa;
+package conexaoBancoDados;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -6,12 +6,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import identificadorDeObjetos.Promocao;
+import identificadorDeObjetos.PromocaoPagueLeve;
+import identificadorDeObjetos.PromocaoValorAbsoluto;
+
 public class DAO_Promocoes {
 	private static final String INSERT_SQL = "INSERT INTO PROMOCOES(ID, DESCRICAO, OBSERVACAO, QUANTIDADE_ATIVACAO, PRECO_FINAL, QUANTIDADE_PAGA) VALUES(?, ?, ?, ?, ?, ?)";
 	private static final String SELECT_SQL = "SELECT * FROM PROMOCOES WHERE ID = ?";
 	private static final String UPDATE_SQL = "UPDATE INTO";
 	private static final String DELETE_SQL = "DELETE INTO";
-	public void gerarPromocao(Promocao promocao) throws SQLException {
+	public static void gerarPromocao(Promocao promocao) throws SQLException {
 		try(Connection conexao = FabricaConexao.getConexao();
 				PreparedStatement criar = conexao.prepareStatement(INSERT_SQL)){
 			criar.setInt(1, promocao.getID());

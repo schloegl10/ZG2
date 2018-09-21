@@ -1,5 +1,7 @@
 package caixa;
 
+import identificadorDeObjetos.Produto;
+
 public class Item {
 	Produto produto;
 	private int quantidade;

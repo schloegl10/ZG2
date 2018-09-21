@@ -1,4 +1,4 @@
-package caixa;
+package conexaoBancoDados;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
