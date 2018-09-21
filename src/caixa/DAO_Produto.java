@@ -1,6 +1,5 @@
 package caixa;
 
-import java.math.BigDecimal;
 import java.sql.*;
 
 public class DAO_Produto {
@@ -14,6 +13,9 @@ public class DAO_Produto {
 			criar.setInt(1, produto.getID());
 			criar.setString(2, produto.getDescricao());
 			criar.setBigDecimal(3, produto.getPreco());
+			for(int i=0;i<produto.promocao.size();i++) {
+				DAO_Referencias.gerarReferencia(produto.getID(), produto.promocao.get(i).getID());
+			}
 			criar.executeUpdate();
 		}
 		catch(SQLException e) {
@@ -37,5 +39,29 @@ public class DAO_Produto {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	public static void alterarProdutoCompleto(Produto produto) throws SQLException {
+		String UPDATE_SQL2=UPDATE_SQL+"DESCRICAO = ?, VALOR = ? WHERE ID = ?";
+		try(Connection conexao = FabricaConexao.getConexao();
+				PreparedStatement alterar = conexao.prepareStatement(UPDATE_SQL2)){
+			alterar.setString(1, produto.getDescricao());
+			alterar.setBigDecimal(2, produto.getPreco());
+			alterar.setInt(3, produto.getID());
+			for(int i=0;i<produto.promocao.size();i++) {
+				DAO_Referencias.alterarReferencia(produto.getID(), produto.promocao.get(i).getID(),"produto");
+			}
+			alterar.executeUpdate();
+		}
+	}
+	public static void deletarProduto(int id) throws SQLException {
+		try(Connection conexao = FabricaConexao.getConexao();
+				PreparedStatement deletar = conexao.prepareStatement(DELETE_SQL)){
+			deletar.setInt(1, id);
+			DAO_Referencias.deletarReferencia(id,"-Produto");
+			deletar.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
