@@ -13,8 +13,8 @@ import identificadorDeObjetos.PromocaoValorAbsoluto;
 public class DAO_Promocoes {
 	private static final String INSERT_SQL = "INSERT INTO PROMOCOES(ID, DESCRICAO, OBSERVACAO, QUANTIDADE_ATIVACAO, PRECO_FINAL, QUANTIDADE_PAGA) VALUES(?, ?, ?, ?, ?, ?)";
 	private static final String SELECT_SQL = "SELECT * FROM PROMOCOES WHERE ID = ?";
-	private static final String UPDATE_SQL = "UPDATE INTO";
-	private static final String DELETE_SQL = "DELETE INTO";
+	//private static final String UPDATE_SQL = "UPDATE INTO";
+	//private static final String DELETE_SQL = "DELETE INTO";
 	public static void gerarPromocao(Promocao promocao) throws SQLException {
 		try(Connection conexao = FabricaConexao.getConexao();
 				PreparedStatement criar = conexao.prepareStatement(INSERT_SQL)){
@@ -38,20 +38,21 @@ public class DAO_Promocoes {
 	}
 
 	public static Promocao selecionarPromocao(int id) throws SQLException {
-		Promocao promocao = null;
+		Promocao promocao;
 		try(Connection conexao = FabricaConexao.getConexao();
 				PreparedStatement consulta = conexao.prepareStatement(SELECT_SQL)){
 			consulta.setInt(1, id);
 			ResultSet resultado = consulta.executeQuery();
 			if(resultado.next()) {
-				if(promocao instanceof PromocaoPagueLeve) {
+				if(resultado.getInt("QUANTIDADE_PAGA") != -1) {
 					promocao = new PromocaoPagueLeve(resultado.getInt("ID"), resultado.getString("DESCRICAO"), resultado.getString("OBSERVACAO"), resultado.getInt("QUANTIDADE_ATIVACAO"),resultado.getInt("QUANTIDADE_PAGA"));
+					return promocao;
 				}
-				if(promocao instanceof PromocaoValorAbsoluto) {
+				else {
 					promocao = new PromocaoValorAbsoluto(resultado.getInt("ID"), resultado.getString("DESCRICAO"), resultado.getString("OBSERVACAO"), resultado.getInt("QUANTIDADE_ATIVACAO"), resultado.getBigDecimal("PRECO_FINAL"));
+					return promocao;
 				}
 				
-				return promocao;
 			}
 		}
 		catch(SQLException e){

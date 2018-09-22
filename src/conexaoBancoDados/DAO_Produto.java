@@ -43,6 +43,7 @@ public class DAO_Produto {
 				produto.setDescricao(resultado.getString("DESCRICAO"));
 				produto.setPreco(resultado.getBigDecimal("VALOR"));
 				produto.setPromocao(DAO_Promocoes.selecionarPromocao(id));
+				return produto;
 			}
 		}
 		catch(SQLException e){

@@ -1,6 +1,8 @@
 package Calculo;
 import java.math.BigDecimal;
 import java.util.List;
+
+import dominio.Item;
 public class Calcula {
 	
 	public static BigDecimal getPrecoBruto(List<Item> compra){

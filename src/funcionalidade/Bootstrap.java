@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import conexaoBancoDados.DAO_Produto;
+import conexaoBancoDados.DAO_Promocoes;
 import conexaoBancoDados.FabricaConexao;
 import identificadorDeObjetos.Produto;
 import identificadorDeObjetos.Promocao;
@@ -18,7 +19,7 @@ public class Bootstrap {
 	public static void criaTabelas() throws SQLException {
 		String sql = "CREATE TABLE IF NOT EXISTS PROMOCOES(\n"
 				+ "ID INT UNIQUE NOT NULL,\n"
-				+ "DESCIRCAO VARCHAR(100),\n"
+				+ "DESCRICAO VARCHAR(100),\n"
 				+ "OBSERVACAO VARCHAR(100),\n"
 				+ "QUANTIDADE_ATIVACAO INT NOT NULL,\n"
 				+ "PRECO_FINAL DECIMAL,\n"
@@ -49,17 +50,13 @@ public class Bootstrap {
 		try { 
 			data = new String(Files.readAllBytes(Paths.get(url)));
 			produtoID = LeitorDeTexto.lerParametro("(?<=id\\:\\s)\\d+(?=\\|)", data);
-			produtoDescricao = LeitorDeTexto.lerParametro("(?<=descricao\\:\\s)\\w+(?=\\|)", data);
+			produtoDescricao = LeitorDeTexto.lerParametro("(?<=descricao\\:\\s)[\\w\\s]+(?=\\|)", data);
 			produtoValor = LeitorDeTexto.lerParametro("(?<=valor\\:\\s)[0-9\\.]+(?=\\|)", data);
 			produtoIDPromocao = LeitorDeTexto.lerParametro("(?<=promocao\\:\\s)[0-9\\-]+(?=\\|)", data);
 			produto = LeitorDeTexto.identificadorProduto(produtoID, produtoDescricao, produtoValor, produtoIDPromocao);
 			for(int i = 0; i<produto.size();i++) {
 				if(DAO_Produto.selecionarProduto(produto.get(i).getID())== null) {
 					DAO_Produto.gerarProduto(produto.get(i));
-				}
-				else {
-					DAO_Produto.alterarProdutoCompleto(produto.get(i));
-					//passivel de alteração de forma a apenas não realizar nenhuma ação
 				}
 			}
 			
@@ -68,15 +65,13 @@ public class Bootstrap {
 			e.printStackTrace();
 		}
 	}
-	public static void geradorPromocao(String url) {
+	public static void geradorPromocao(String url) throws SQLException {
 		ArrayList<Promocao> promocao;
-		String data = "";
-		try {
-			data = new String(Files.readAllBytes(Paths.get(url)));
-			
-		}
-		catch(IOException e) {
-			e.printStackTrace();
+		promocao = LeitorDeTexto.identificadorPomocao(url);
+		for(int i = 0; i<promocao.size();i++) {
+			if(DAO_Promocoes.selecionarPromocao(promocao.get(i).getID())==null) {
+				DAO_Promocoes.gerarPromocao(promocao.get(i));
+			}
 		}
 	}
 }

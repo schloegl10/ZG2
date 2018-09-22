@@ -3,7 +3,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import Calculo.Calcula;
-import Calculo.Item;
 import identificadorDeObjetos.Produto;
 public class Caixa {
 	ArrayList<Item> compra = new ArrayList<Item>();

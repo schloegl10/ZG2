@@ -1,4 +1,4 @@
-package Calculo;
+package dominio;
 
 import identificadorDeObjetos.Produto;
 
