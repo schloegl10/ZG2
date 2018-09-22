@@ -26,7 +26,9 @@ public class PromocaoValorAbsoluto extends Promocao{
 			produtosAbrangidos = BigDecimal.valueOf(getQuantidadeAtivacao()).multiply(BigDecimal.valueOf(verificador));
 			valorSemDesconto = preco.multiply(produtosAbrangidos);
 			valorDesconto = preco_final.multiply(BigDecimal.valueOf(verificador));
-			return valorSemDesconto.subtract(valorDesconto);
+			if(valorDesconto.compareTo(valorSemDesconto) < 0) {
+				return valorSemDesconto.subtract(valorDesconto);
+			}
 		}
 		
 		return BigDecimal.valueOf(0);

@@ -15,12 +15,19 @@ public class Calcula {
 	}
 	
 	public static BigDecimal getDesconto(List<Item> compra) {
-		BigDecimal descontoTotal=BigDecimal.valueOf(0);
+		BigDecimal descontoTotal = new BigDecimal(0);
+		BigDecimal descontoProduto;
+		BigDecimal valorProduto;
+		int quantidadeProduto;
 		for(int i=0;i<compra.size();i++) {
 			if(compra.get(i).produto.getPromocao()!=null) {
-				descontoTotal = descontoTotal.add(compra.get(i).produto.getPromocao().getDesconto(compra.get(i).getQuantidade(), compra.get(i).produto.getPreco()));
+				valorProduto = compra.get(i).produto.getPreco();
+				quantidadeProduto = compra.get(i).getQuantidade();
+				descontoProduto = compra.get(i).produto.getPromocao().getDesconto(quantidadeProduto, valorProduto);
+				descontoTotal = descontoTotal.add(descontoProduto);
 			}
 		}
+		
 		return descontoTotal;
 	}
 	

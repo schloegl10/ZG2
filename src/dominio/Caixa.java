@@ -1,19 +1,21 @@
 package dominio;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Calculo.Calcula;
+import conexaoBancoDados.DAO_Produto;
 import identificadorDeObjetos.Produto;
 public class Caixa {
 	ArrayList<Item> compra = new ArrayList<Item>();
-	public enum adicionaRemove{
+	public enum AdicionaRemove{
 		Adiciona,Remove;
 	}
-	public void Console(String codigo,adicionaRemove acao) {
-		Produto produto = Bd.getProduto(codigo);
+	public void Console(int id, AdicionaRemove acao) throws SQLException {
+		Produto produto = DAO_Produto.selecionarProduto(id);
 		
 		if(produto!=null) {
-			if(acao==adicionaRemove.Adiciona) {
+			if(acao==AdicionaRemove.Adiciona) {
 				addItem(produto);
 			}
 			else {
@@ -33,31 +35,33 @@ public class Caixa {
 	}
 	public void addItem(Produto produto) {
 		int indiceItem;
+		int quantidadeFinal;
 		indiceItem=verificaItem(produto);
 		if(indiceItem!=-1) {
-			compra.get(indiceItem).setQuantidade(compra.get(indiceItem).getQuantidade()+1);
+			quantidadeFinal = compra.get(indiceItem).getQuantidade()+1;
+			compra.get(indiceItem).setQuantidade(quantidadeFinal);
 		}			
 		else {
 			Item item = new Item(produto);
-			item.setQuantidade(item.getQuantidade()+1);
+			quantidadeFinal = item.getQuantidade()+1;
+			item.setQuantidade(quantidadeFinal);
 			compra.add(item);
 		}
 	}
 	
 	public int verificaItem(Produto produto) {
 		for(int i = 0;i<compra.size();i++) {
-			if(produto == compra.get(i).produto) {
+			if(produto.getID() == compra.get(i).produto.getID()) {
 				return i;
 			}
 		}
 		return -1;
 	}
 	public BigDecimal getPrecoLiquido() {
-		BigDecimal precoLiquido=BigDecimal.valueOf(0);
-		precoLiquido=Calcula.getPrecoBruto(compra).subtract(Calcula.getDesconto(compra));
-		return precoLiquido;
+		
+		return Calcula.getPrecoBruto(compra).subtract(Calcula.getDesconto(compra));
 	}
-	public void rest() {
+	public void fimDaCompra() {
 		compra = new ArrayList<Item>();
 	}
 	
