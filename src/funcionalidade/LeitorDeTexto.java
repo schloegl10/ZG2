@@ -19,7 +19,7 @@ import identificadorDeObjetos.PromocaoValorAbsoluto;
 
 public class LeitorDeTexto {
 
-	public static List<String> getResult(String regex,String text) {
+	public static List<String> lerParametro(String regex,String text) {
 		List<String> participantList = new ArrayList<>();
 		
 		Pattern pattern = Pattern.compile(regex);
@@ -31,7 +31,7 @@ public class LeitorDeTexto {
 		
 		return participantList;	
 	}
-	public ArrayList<Produto> identificadorProduto(List<String> produtoID,List<String> produtoDescricao, List<String> produtoValor, List<String> produtoIDPromocao) throws SQLException {
+	public static ArrayList<Produto> identificadorProduto(List<String> produtoID,List<String> produtoDescricao, List<String> produtoValor, List<String> produtoIDPromocao) throws SQLException {
 		ArrayList<Produto> produto = new ArrayList<Produto>();
 		Produto produtoTemporario;
 		Promocao promocaoTemporaria;
@@ -57,7 +57,7 @@ public class LeitorDeTexto {
 		return produto;
 		
 	}
-	public static ArrayList<Promocao> leitorCSV(String url) {
+	public static ArrayList<Promocao> identificadorPomocao(String url) {
 		ArrayList<Promocao> promocoes = new ArrayList<Promocao>();
 		Promocao promocaoTemporaria = null;
 	    BufferedReader leitor = null;

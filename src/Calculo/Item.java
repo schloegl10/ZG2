@@ -1,10 +1,10 @@
-package caixa;
+package Calculo;
 
 import identificadorDeObjetos.Produto;
 
 public class Item {
-	Produto produto;
-	private int quantidade;
+	public Produto produto;
+	private int quantidade; 
 	
 	public Item(Produto produto) {
 		this.produto = produto;

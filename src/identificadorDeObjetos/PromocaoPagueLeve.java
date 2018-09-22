@@ -17,9 +17,9 @@ public class PromocaoPagueLeve extends Promocao {
 	}
 	public BigDecimal getDesconto(int quantidade, BigDecimal preco) {
 		int verificador;
-		verificador = quantidade/quantidade_ativacao;
+		verificador = quantidade/getQuantidadeAtivacao();
 		if(verificador>=1) {
-			return preco.multiply(BigDecimal.valueOf(((quantidade_ativacao-quantidade_paga)*verificador)));
+			return preco.multiply(BigDecimal.valueOf(((getQuantidadeAtivacao()-quantidade_paga)*verificador)));
 		}
 		return BigDecimal.valueOf(0);
 	}

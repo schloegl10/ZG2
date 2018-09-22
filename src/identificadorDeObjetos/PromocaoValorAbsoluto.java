@@ -16,13 +16,17 @@ public class PromocaoValorAbsoluto extends Promocao{
 		this.preco_final.equals(preco_final);
 	}
 	public BigDecimal getDesconto(int quantidade,BigDecimal preco) {
-		
+		BigDecimal valorSemDesconto;
+		BigDecimal produtosAbrangidos;
+		BigDecimal valorDesconto;
 		int verificador;
-		verificador=quantidade/quantidade_ativacao;
+		verificador=quantidade/getQuantidadeAtivacao();
 		
 		if(verificador>=1){
-			
-			return preco.multiply(BigDecimal.valueOf(quantidade_ativacao).multiply(BigDecimal.valueOf(verificador)).subtract(preco_final.multiply(BigDecimal.valueOf(verificador))));
+			produtosAbrangidos = BigDecimal.valueOf(getQuantidadeAtivacao()).multiply(BigDecimal.valueOf(verificador));
+			valorSemDesconto = preco.multiply(produtosAbrangidos);
+			valorDesconto = preco_final.multiply(BigDecimal.valueOf(verificador));
+			return valorSemDesconto.subtract(valorDesconto);
 		}
 		
 		return BigDecimal.valueOf(0);

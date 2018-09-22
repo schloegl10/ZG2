@@ -1,4 +1,4 @@
-package caixa;
+package dominio;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;

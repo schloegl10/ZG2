@@ -1,4 +1,4 @@
-package caixa;
+package Calculo;
 import java.math.BigDecimal;
 import java.util.List;
 public class Calcula {
@@ -15,8 +15,8 @@ public class Calcula {
 	public static BigDecimal getDesconto(List<Item> compra) {
 		BigDecimal descontoTotal=BigDecimal.valueOf(0);
 		for(int i=0;i<compra.size();i++) {
-			if(compra.get(i).produto.promocao!=null) {
-				descontoTotal = descontoTotal.add(compra.get(i).produto.promocao.getDesconto(compra.get(i).getQuantidade(), compra.get(i).produto.getPreco()));
+			if(compra.get(i).produto.getPromocao()!=null) {
+				descontoTotal = descontoTotal.add(compra.get(i).produto.getPromocao().getDesconto(compra.get(i).getQuantidade(), compra.get(i).produto.getPreco()));
 			}
 		}
 		return descontoTotal;

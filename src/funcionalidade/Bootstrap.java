@@ -6,8 +6,13 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import conexaoBancoDados.DAO_Produto;
 import conexaoBancoDados.FabricaConexao;
+import identificadorDeObjetos.Produto;
+import identificadorDeObjetos.Promocao;
 
 public class Bootstrap {
 	public static void criaTabelas() throws SQLException {
@@ -34,13 +39,43 @@ public class Bootstrap {
 			e.printStackTrace();
 		}
 	}
-	public static void geradorProdutos(String url) {
+	public static void geradorProdutos(String url) throws SQLException {
+		List<String> produtoID;
+		List<String> produtoDescricao;
+		List<String> produtoValor;
+		List<String> produtoIDPromocao;
+		ArrayList<Produto> produto;
 		String data = "";
 		try { 
 			data = new String(Files.readAllBytes(Paths.get(url)));
+			produtoID = LeitorDeTexto.lerParametro("(?<=id\\:\\s)\\d+(?=\\|)", data);
+			produtoDescricao = LeitorDeTexto.lerParametro("(?<=descricao\\:\\s)\\w+(?=\\|)", data);
+			produtoValor = LeitorDeTexto.lerParametro("(?<=valor\\:\\s)[0-9\\.]+(?=\\|)", data);
+			produtoIDPromocao = LeitorDeTexto.lerParametro("(?<=promocao\\:\\s)[0-9\\-]+(?=\\|)", data);
+			produto = LeitorDeTexto.identificadorProduto(produtoID, produtoDescricao, produtoValor, produtoIDPromocao);
+			for(int i = 0; i<produto.size();i++) {
+				if(DAO_Produto.selecionarProduto(produto.get(i).getID())== null) {
+					DAO_Produto.gerarProduto(produto.get(i));
+				}
+				else {
+					DAO_Produto.alterarProdutoCompleto(produto.get(i));
+					//passivel de alteração de forma a apenas não realizar nenhuma ação
+				}
+			}
 			
 		}
 		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void geradorPromocao(String url) {
+		ArrayList<Promocao> promocao;
+		String data = "";
+		try {
+			data = new String(Files.readAllBytes(Paths.get(url)));
+			
+		}
+		catch(IOException e) {
 			e.printStackTrace();
 		}
 	}
