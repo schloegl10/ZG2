@@ -16,22 +16,14 @@ import identificadorDeObjetos.Produto;
 import identificadorDeObjetos.Promocao;
 
 public class Bootstrap {
-	public static void criaTabelas() throws SQLException {
-		String sql = "CREATE TABLE IF NOT EXISTS PROMOCOES(\n"
-				+ "ID INT UNIQUE NOT NULL,\n"
-				+ "DESCRICAO VARCHAR(100),\n"
-				+ "OBSERVACAO VARCHAR(100),\n"
-				+ "QUANTIDADE_ATIVACAO INT NOT NULL,\n"
-				+ "PRECO_FINAL DECIMAL,\n"
-				+ "QUANTIDADE_PAGA INT,"
-				+ "PRIMARY KEY (ID));\n"
-				+ "CREATE TABLE IF NOT EXISTS PRODUTOS(\n"
-				+ "ID INT UNIQUE NOT NULL,\n"
-				+ "DESCRICAO VARCHAR(100) UNIQUE NOT NULL,\n"
-				+ "VALOR DECIMAL NOT NULL,\n"
-				+ "IDPROMOCAO INT,\n"
-				+ "PRIMARY KEY (ID),\n"
-				+ "FOREIGN KEY (IDPROMOCAO) REFERENCES PROMOCOES(ID));";
+	public static void criaTabelas(String url) throws SQLException {
+		String sql = "";
+		try {
+			sql = new String(Files.readAllBytes(Paths.get(url)));
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
 		try(Connection conexao = FabricaConexao.getConexao();
 				PreparedStatement criacao = conexao.prepareStatement(sql)){
 			criacao.executeUpdate();
@@ -73,5 +65,34 @@ public class Bootstrap {
 				DAO_Promocoes.gerarPromocao(promocao.get(i));
 			}
 		}
+	}
+	public static void adicionaPromocao(Promocao promocao) throws SQLException {
+		if(DAO_Promocoes.selecionarPromocao(promocao.getID())!=null) {
+
+			DAO_Promocoes.gerarPromocao(promocao);
+		}
+	}
+	public static void adicionaProduto(Produto produto)  throws SQLException {
+		if(DAO_Produto.selecionarProduto(produto.getID())!=null){
+			DAO_Produto.gerarProduto(produto);
+		}
+	}
+	public static Promocao selecionaPromocao(int id)  throws SQLException{
+		return DAO_Promocoes.selecionarPromocao(id);
+	}
+	public static Produto selecionaProduto(int id)  throws SQLException{
+		return DAO_Produto.selecionarProduto(id);
+	}
+	public static void alteraPromocao(Promocao promocao)  throws SQLException{
+		DAO_Promocoes.alterarPromocaoCompleta(promocao);
+	}
+	public static void alteraProduto(Produto produto)  throws SQLException{
+		DAO_Produto.alterarProdutoCompleto(produto);
+	}
+	public static void deletaProduto(int id)  throws SQLException{
+		DAO_Produto.deletarProduto(id);
+	}
+	public static void deletaPromocao(int id)  throws SQLException{
+		DAO_Promocoes.deletarPromocao(id);
 	}
 }

@@ -3,8 +3,8 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Calculo.Calcula;
-import conexaoBancoDados.DAO_Produto;
+import calculo.Calcula;
+import funcionalidade.Bootstrap;
 import identificadorDeObjetos.Produto;
 public class Caixa {
 	ArrayList<Item> compra = new ArrayList<Item>();
@@ -12,7 +12,7 @@ public class Caixa {
 		Adiciona,Remove;
 	}
 	public void Console(int id, AdicionaRemove acao) throws SQLException {
-		Produto produto = DAO_Produto.selecionarProduto(id);
+		Produto produto = Bootstrap.selecionaProduto(id);
 		
 		if(produto!=null) {
 			if(acao==AdicionaRemove.Adiciona) {

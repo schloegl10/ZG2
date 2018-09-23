@@ -70,6 +70,20 @@ public class DAO_Produto {
 			}
 			alterar.executeUpdate();
 		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void retirarPromocaoProduto(int idPromocao) throws SQLException {
+		String UPDATE_SQL2 = UPDATE_SQL+" IDPROMOCAO = NULL WHERE IDPROMOCAO = ?";
+		try(Connection conexao = FabricaConexao.getConexao();
+				PreparedStatement alterar = conexao.prepareStatement(UPDATE_SQL2)){
+			alterar.setInt(1, idPromocao);
+			alterar.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	public static void deletarProduto(int id) throws SQLException {
 		try(Connection conexao = FabricaConexao.getConexao();

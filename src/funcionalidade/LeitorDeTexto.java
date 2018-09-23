@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import conexaoBancoDados.DAO_Promocoes;
 import identificadorDeObjetos.Produto;
 import identificadorDeObjetos.Promocao;
 import identificadorDeObjetos.PromocaoPagueLeve;
@@ -48,7 +47,7 @@ public class LeitorDeTexto {
 			produtoTemporario = new Produto(id,descricao,valor);
 			
 			if(idPromocao !=-1) {
-				promocaoTemporaria = DAO_Promocoes.selecionarPromocao(idPromocao);
+				promocaoTemporaria = Bootstrap.selecionaPromocao(idPromocao);
 				produtoTemporario.setPromocao(promocaoTemporaria);
 			}
 			produto.add(produtoTemporario);
