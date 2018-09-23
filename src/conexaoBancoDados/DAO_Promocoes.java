@@ -105,5 +105,5 @@ public class DAO_Promocoes {
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
-	}
+	} 
 }
